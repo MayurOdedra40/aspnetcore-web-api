@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAPICore.Data;
 
 namespace WebAPICore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220713165940_PublisherAdded")]
+    partial class PublisherAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,27 +21,15 @@ namespace WebAPICore.Migrations
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("WebAPICore.Data.Models.Author", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("FullName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Authors");
-                });
-
             modelBuilder.Entity("WebAPICore.Data.Models.Book", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Author")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CoverUrl")
                         .HasColumnType("nvarchar(max)");
@@ -75,28 +65,6 @@ namespace WebAPICore.Migrations
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("WebAPICore.Data.Models.Book_Author", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
-
-                    b.HasIndex("BookId");
-
-                    b.ToTable("Books_Authors");
-                });
-
             modelBuilder.Entity("WebAPICore.Data.Models.Publisher", b =>
                 {
                     b.Property<int>("Id")
@@ -109,7 +77,7 @@ namespace WebAPICore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Publishers");
+                    b.ToTable("Publisher");
                 });
 
             modelBuilder.Entity("WebAPICore.Data.Models.Book", b =>
@@ -121,35 +89,6 @@ namespace WebAPICore.Migrations
                         .IsRequired();
 
                     b.Navigation("Publisher");
-                });
-
-            modelBuilder.Entity("WebAPICore.Data.Models.Book_Author", b =>
-                {
-                    b.HasOne("WebAPICore.Data.Models.Author", "Author")
-                        .WithMany("Book_Authors")
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebAPICore.Data.Models.Book", "Book")
-                        .WithMany("Book_Authors")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
-
-                    b.Navigation("Book");
-                });
-
-            modelBuilder.Entity("WebAPICore.Data.Models.Author", b =>
-                {
-                    b.Navigation("Book_Authors");
-                });
-
-            modelBuilder.Entity("WebAPICore.Data.Models.Book", b =>
-                {
-                    b.Navigation("Book_Authors");
                 });
 
             modelBuilder.Entity("WebAPICore.Data.Models.Publisher", b =>

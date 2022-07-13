@@ -34,10 +34,10 @@ namespace WebAPICore.Controllers
             return Ok(book);
         }
 
-        [HttpPost("add-book")]
+        [HttpPost("add-book-with-author")]
         public IActionResult AddBook([FromBody]BookVM book) 
         {
-            _bookService.AddBook(book);
+            _bookService.AddBookWithAuthors(book);
             return Ok();
         }
 

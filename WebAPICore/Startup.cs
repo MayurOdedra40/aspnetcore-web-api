@@ -40,6 +40,8 @@ namespace WebAPICore
 
             //congfigure the services
             services.AddTransient<BookService>();
+            services.AddTransient<AuthorService>();
+            services.AddTransient<PublisherService>();
 
             services.AddSwaggerGen(c =>
             {
@@ -68,7 +70,7 @@ namespace WebAPICore
                 endpoints.MapControllers();
             });
 
-            AppDbInitializer.Seed(app);
+            //AppDbInitializer.Seed(app);
         }
     }
 }
